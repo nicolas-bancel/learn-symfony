@@ -70,4 +70,12 @@ class IphoneController extends AbstractController
         throw $this->createNotFoundException('le produit n\'existe pas.');
     }
 
+    /**
+     * @Route("/product/create" name="create")
+     */
+    public function create()
+    {
+        return $this->render('product/create.html.twig');
+    }
+
 }
