@@ -46,6 +46,14 @@ class IphoneController extends AbstractController
     }
 
     /**
+     * @Route("/product/create", name="product_create")
+     */
+    public function create()
+    {
+        return $this->render('product/create.html.twig');
+    }
+
+    /**
      * @Route("/product/{slug}", name="slug")
      */
     public function slug($slug)
@@ -68,14 +76,6 @@ class IphoneController extends AbstractController
 
         // apres avoir parcouru le tableau, si rien ne correspond on affiche une 404
         throw $this->createNotFoundException('le produit n\'existe pas.');
-    }
-
-    /**
-     * @Route("/product/create" name="create")
-     */
-    public function create()
-    {
-        return $this->render('product/create.html.twig');
     }
 
 }
