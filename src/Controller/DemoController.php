@@ -106,6 +106,4 @@ class DemoController extends AbstractController
             ResponseHeaderBag::DISPOSITION_INLINE
         );
     }
-
-    
 }
