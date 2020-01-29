@@ -24,12 +24,15 @@
                         <li class="nav-item {{ current_route == 'product_create' ? 'active' }}">
                             <a class="nav-link" href="{{ path('product_create') }}">Créer</a>
                         </li>
+                        <li class="nav-item {{ current_route == 'contact' ? 'active' }}">
+                            <a class="nav-link" href="{{ path('contact') }}">Contact</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
             {% endblock %}
         </div>
-        <div>
+        <div class="container">
             {% block body %}{% endblock %}
         </div>
 

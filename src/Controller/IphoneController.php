@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Model\Product;
+use App\Model\Contact;
+use App\Form\ProductType;
+use App\Form\ContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 
 class IphoneController extends AbstractController
@@ -70,11 +70,7 @@ class IphoneController extends AbstractController
         $product = new Product();
         dump($product);
 
-        $form = $this->createFormBuilder($product)
-            ->add('name', TextType::class)
-            // ->add('telephone', TelType::class)
-            ->add('description', TextareaType::class)
-            ->getForm();
+        $form = $this->createForm(ProductType::class, $product);
 
         $form->handleRequest($request);
 
@@ -90,6 +86,40 @@ class IphoneController extends AbstractController
             'form' =>$form->createView(),
         ]);
     }
+
+
+
+    /**
+     * @Route("/contact", name="contact")
+     */
+    public function contact(Request $request)
+    {
+        $contact = new Contact();
+
+        $form = $this->createForm(ContactType::class, $contact);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            dump($form->getData());
+            dump($contact);
+
+            $this->addFlash('success', 'Nous avons bien pris en compte votre message.' );
+
+            return $this->redirectToRoute('product');
+
+            //redirige, bdd, emailing...
+        }
+
+        return $this->render('product/contact.html.twig',[
+            'form' =>$form->createView(),
+        ]);
+    }
+
+
+
+
 
 
 
