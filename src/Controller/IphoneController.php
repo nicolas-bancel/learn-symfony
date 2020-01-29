@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 
+use App\Model\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 
 class IphoneController extends AbstractController
 {
@@ -19,6 +24,10 @@ class IphoneController extends AbstractController
         ];
     }
 
+
+
+
+
     /**
      * @Route("/product", name="product")
      */
@@ -28,6 +37,10 @@ class IphoneController extends AbstractController
             'products' => $this->products
         ]);
     }
+
+
+
+
 
     /**
      * @Route("/product/random", name="random")
@@ -45,13 +58,42 @@ class IphoneController extends AbstractController
         ]);
     }
 
+
+
+
+
     /**
      * @Route("/product/create", name="product_create")
      */
-    public function create()
+    public function create(Request $request)
     {
-        return $this->render('product/create.html.twig');
+        $product = new Product();
+        dump($product);
+
+        $form = $this->createFormBuilder($product)
+            ->add('name', TextType::class)
+            // ->add('telephone', TelType::class)
+            ->add('description', TextareaType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            dump($form->getData());
+            dump($product);
+
+            //redirige, bdd, emailing...
+        }
+
+        return $this->render('product/create.html.twig',[
+            'form' =>$form->createView(),
+        ]);
     }
+
+
+
+
 
     /**
      * @Route("/product/{slug}", name="slug")
@@ -78,6 +120,10 @@ class IphoneController extends AbstractController
         // apres avoir parcouru le tableau, si rien ne correspond on affiche une 404
         throw $this->createNotFoundException('le produit n\'existe pas.');
     }
+
+
+
+
 
     /**
      * @Route("/product/order/{slug}", name="order")
