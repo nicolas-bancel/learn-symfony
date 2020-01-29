@@ -40,7 +40,7 @@ class IphoneController extends AbstractController
 
         dump($this->products[array_rand($this->products, 1)]);
 
-        return $this->render('product/random.html.twig', [
+        return $this->render('product/slug.html.twig', [
             'products' => $rand
         ]);
     }
@@ -69,13 +69,24 @@ class IphoneController extends AbstractController
                 dump($product);
                 //si un produit correspond, on retourne le template et on arrete le code
                 return $this->render('product/slug.html.twig', [
-                    'product' => $product
+                    'product' => $product,
+                    'slug' => $slug
                 ]);
             }
         }
 
         // apres avoir parcouru le tableau, si rien ne correspond on affiche une 404
         throw $this->createNotFoundException('le produit n\'existe pas.');
+    }
+
+    /**
+     * @Route("/product/order/{slug}", name="order")
+     */
+    public function order($slug)
+    {
+        $this->addFlash('success', 'Nous avons bien pris en compte votre commande de'.$slug );
+
+        return $this->redirectToRoute('product');
     }
 
 }

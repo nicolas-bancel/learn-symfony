@@ -11,17 +11,43 @@
     <body>
         <div>
             {% block sidebar %}
-            <ul>
-                <li>Accueil</li>
-                <li>Liste des produits</li>
-            </ul>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="collapse navbar-collapse container" id="navbarNav">
+                    {% set current_route = app.request.get('_route') %}
+                    <ul class="navbar-nav">
+                        <li class="nav-item {{ current_route == 'product' ? 'active' }}">
+                            <a class="nav-link" href="{{ path('product') }}">Accueil</a>
+                        </li>
+                        <li class="nav-item {{ current_route == 'random' ? 'active' }}">
+                            <a class="nav-link" href="{{ path('random') }}">Random</a>
+                        </li>
+                        <li class="nav-item {{ current_route == 'product_create' ? 'active' }}">
+                            <a class="nav-link" href="{{ path('product_create') }}">Créer</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
             {% endblock %}
         </div>
         <div>
             {% block body %}{% endblock %}
         </div>
+
+        <div class="container mt-5 mb-5">
+            {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
         
-        
+        {% block footer %}
+        <div class="bg-light py-5">
+            <div class="container">
+                <p class="text-center mb-0">Copyright © {{ "now"|date("Y") }}</p>
+            </div>
+        </div> 
+        {% endblock %}
         {% block javascripts %}
             <script src="{{ asset('js/app.js') }}"></script>
         {% endblock %}

@@ -2,7 +2,20 @@
 
 {% block body %}
 
-<p>salut slug</p>
-<p>{{ product.name }}</p>
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <h1>{{ product.name }}</h1>
+            <h3>{{ product.price }} €</h3>
+        </div>
+        <div class="col-md-6">
+            <p>{{ product.description }}</p>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a href="{{ path('order', {'slug': product.slug }) }}" class="btn btn-info">Commander le produit</a>
+    </div>
+</div>
 
 {% endblock %}

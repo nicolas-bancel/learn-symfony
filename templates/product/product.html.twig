@@ -3,14 +3,45 @@
 
 {% block body %}
 
-    <p>salut produit</p>
-    
-    {% for product in products %}
-    <ul>
-        <li>{{ product.name }}</li>
-    </ul>
-    {% endfor %}
-    <!-- {{dump()}}
-    méthode HTTP : {{ app.request.method }} -->
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Nos produits</h1>
+        
+        <table class="table">
+
+            
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            {% for product in products %}
+            <tbody>
+                <tr>
+                    <td >{{ loop.index }}</td>
+                    <td >{{ product.name }}</td>
+                    <td >{{ product.description }}</td>
+                    <td >{{ product.price }}</td>
+                    <td ><a href="{{ path('slug', {'slug': product.slug }) }}"><button class="btn btn-primary">Afficher le produit</button></a></td>
+                </tr>
+            </tbody>
+            
+            {% endfor %}
+
+        </table>
+
+
+
+        <!-- {% for product in products %}
+        <ul>
+            <li>{{ product.name }}</li>
+        </ul>
+        {% endfor %} -->
+        <!-- {{dump()}}
+            méthode HTTP : {{ app.request.method }} -->
+    </div>
 
 {% endblock %}
