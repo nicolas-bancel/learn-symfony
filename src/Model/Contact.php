@@ -13,6 +13,7 @@ class Contact
     protected $name;
 
     /**
+     * @Assert\NotBlank
      * @Assert\Email
      */
     protected $mail;

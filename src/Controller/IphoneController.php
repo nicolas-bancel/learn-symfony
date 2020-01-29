@@ -9,6 +9,8 @@ use App\Form\ContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class IphoneController extends AbstractController
 {
@@ -92,7 +94,7 @@ class IphoneController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact(Request $request)
+    public function contact(Request $request, MailerInterface $mailer)
     {
         $contact = new Contact();
 
@@ -107,9 +109,17 @@ class IphoneController extends AbstractController
 
             $this->addFlash('success', 'Nous avons bien pris en compte votre message.' );
 
-            return $this->redirectToRoute('product');
+//            return $this->redirectToRoute('product');
 
             //redirige, bdd, emailing...
+            $email = (new Email())
+                ->from('hello@example.com')
+                ->to('bancelnicolas@gmail.com')
+                ->subject($contact->getName().'a fait une demande.')
+                ->text('Sending emails is fun again!')
+                ->html('<p>email: '.$contact->getMail().'</p>');
+
+            $mailer->send($email);
         }
 
         return $this->render('product/contact.html.twig',[
